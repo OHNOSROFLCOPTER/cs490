@@ -6,7 +6,7 @@ The phones
 import socket
 import threading
 
-class Tech_Support_Client:
+class Client_Client:
     is_connected = False
     is_exit = False
     threads = []
@@ -17,7 +17,7 @@ class Tech_Support_Client:
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         host = socket.gethostname()
-        port = 11002
+        port = 11001
         self.s.connect((host, port))
 
         #Threads
@@ -36,7 +36,7 @@ class Tech_Support_Client:
             msg = self.s.recv(4096)
             msg = msg.decode('ascii')
             print(msg)
-            if "The client has disconnected" in msg:
+            if "Tech Support has disconnected" in msg:
                 self.is_connected = False
             if "You are now connected" in msg:
                 self.is_connected = True
@@ -50,6 +50,6 @@ class Tech_Support_Client:
                 self.s.send(user_input.encode('ascii'))
 
 
-CLIENT = Tech_Support_Client()
+CLIENT = Client_Client()
 for thread in CLIENT.threads:
     thread.join()
